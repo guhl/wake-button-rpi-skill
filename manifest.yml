@@ -1,13 +1,12 @@
-
 # This file details all external dependencies required by your skill. If your skill does
 # not require any dependencies, please delete this file before submitting a pull request.
 #
 # To use this file, uncomment the lines you need, and fill in the appropriate information.
 #
-# dependencies:
-#   # Pip dependencies on PyPI
-#   python:
-#     - requests
+dependencies:
+   # Pip dependencies on PyPI
+   python:
+     - RPi.GPIO
 #     - gensim
 #
 #   # Install packages with the system package manager
