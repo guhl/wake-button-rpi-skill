@@ -18,7 +18,7 @@ class WakeButtonRpi(MycroftSkill):
             GPIO.add_event_detect(BUTTON, GPIO.RISING, bouncetime = 500)
         except GPIO.error:
             self.log.warning("Can't initialize GPIO - skill will not load")
-            self.speak_dialog("error.initialise")
+            self.speak_dialog("error.initialize")
         finally:
             self.schedule_repeating_event(self.handle_button,
                                           None, 0.1, 'WakeButtonRpi')
