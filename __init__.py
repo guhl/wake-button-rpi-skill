@@ -7,7 +7,9 @@ import RPi.GPIO as GPIO
 BUTTON = 17
 
 class WakeButtonRpi(MycroftSkill):
+
     def __init__(self):
+        self.ignore_short_after_long = False
         MycroftSkill.__init__(self)
 
     def initialize(self):
@@ -32,13 +34,18 @@ class WakeButtonRpi(MycroftSkill):
         if GPIO.event_detected(BUTTON):
             self.log.info("GPIO.event_detected")
             pressed_time = time.time()
-            while not GPIO.input(BUTTON):
+            while GPIO.input(BUTTON):
                 time.sleep(0.2)
             pressed_time = time.time() - pressed_time
             if pressed_time < longpress_threshold:
-                self.bus.emit(Message("mycroft.mic.listen"))
+                if self.ignore_short_after_long == True:
+                    self.log.info("ignoring short after long")
+                    self.ignore_short_after_long = False
+                else:
+                    self.bus.emit(Message("mycroft.mic.listen"))
             else:
                 self.bus.emit(Message("mycroft.stop"))
+                self.ignore_short_after_long = True
 
     def handle_listener_started(self, message):
         # code to excecute when active listening begins...
